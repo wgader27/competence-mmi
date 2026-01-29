@@ -15,10 +15,10 @@ class Router {
     this.currentRoute = null;
     this.isAuthenticated = false;
     this.loginPath = options.loginPath || '/login';
-    
+
     // Écouter les changements d'URL
     window.addEventListener('popstate', () => this.handleRoute());
-    
+
     // Intercepter les clics sur les liens
     document.addEventListener('click', (e) => {
       if (e.target.matches('[data-link]')) {
@@ -27,61 +27,61 @@ class Router {
       }
     });
   }
-  
+
   // Définir l'état d'authentification
   setAuth(isAuth) {
     this.isAuthenticated = isAuth;
   }
-  
+
   // Enregistrer un layout pour un segment de route
   addLayout(pathPrefix, layoutFn) {
     this.layouts[pathPrefix] = layoutFn;
     return this;
   }
-  
+
   // Trouver le layout correspondant à un chemin
   findLayout(path) {
     // Chercher le segment le plus spécifique (le plus long qui match)
     let matchedLayout = null;
     let longestMatch = 0;
-    
+
     for (const [prefix, layout] of Object.entries(this.layouts)) {
       if (path.startsWith(prefix) && prefix.length > longestMatch) {
         matchedLayout = layout;
         longestMatch = prefix.length;
       }
     }
-    
+
     return matchedLayout;
   }
-  
+
   // Ajouter une route
   addRoute(path, handler, options = {}) {
     const regex = this.pathToRegex(path);
     const keys = this.extractParams(path);
-    this.routes.push({ 
-      path, 
-      regex, 
-      keys, 
+    this.routes.push({
+      path,
+      regex,
+      keys,
       handler,
       requireAuth: options.requireAuth || false,
       useLayout: options.useLayout !== false // true par défaut
     });
     return this;
   }
-  
+
   // Convertir un chemin en regex
   pathToRegex(path) {
     if (path === '*') return /.*/;
-    
+
     const pattern = path
       .replace(/\//g, '\\/')
       .replace(/:(\w+)/g, '([^\\/]+)')
       .replace(/\*/g, '.*');
-    
+
     return new RegExp('^' + pattern + '$');
   }
-  
+
   // Extraire les noms des paramètres
   extractParams(path) {
     const params = [];
@@ -91,29 +91,41 @@ class Router {
     }
     return params;
   }
-  
+
   // Extraire les valeurs des paramètres
   getParams(route, path) {
     const matches = path.match(route.regex);
     if (!matches) return {};
-    
+
     const params = {};
     route.keys.forEach((key, i) => {
       params[key] = matches[i + 1];
     });
     return params;
   }
-  
+
   // Naviguer vers une route
   navigate(path) {
     window.history.pushState(null, null, path);
     this.handleRoute();
   }
-  
+
   // Gérer la route actuelle
   handleRoute() {
-    const path = window.location.pathname;
-    
+    // Retirer le base path de Vite du pathname
+    const basePath = import.meta.env.BASE_URL || '/';
+    let path = window.location.pathname;
+
+    // Si le pathname commence par le basePath, on le retire
+    if (basePath !== '/' && path.startsWith(basePath)) {
+      path = path.slice(basePath.length - 1) || '/';
+    }
+
+    // S'assurer que le path commence par /
+    if (!path.startsWith('/')) {
+      path = '/' + path;
+    }
+
     // Trouver la route correspondante
     for (const route of this.routes) {
       if (route.regex.test(path)) {
@@ -123,13 +135,13 @@ class Router {
           this.navigate(this.loginPath);
           return;
         }
-        
+
         this.currentRoute = path;
         const params = this.getParams(route, path);
-        
+
         // Générer le contenu de la page
         const content = route.handler(params);
-        
+
         if (content instanceof Promise) {
           // Le handler retourne une promesse
           content.then(res => {
@@ -142,7 +154,7 @@ class Router {
         return;
       }
     }
-    
+
     // Route 404 si aucune correspondance
     const notFound = this.routes.find(r => r.path === '*');
     if (notFound) {
@@ -150,27 +162,27 @@ class Router {
       this.root.innerHTML = content;
     }
   }
-  
+
   // Rendre le contenu dans le root ou via un layout
   renderContent(content, route, path) {
     const isFragment = content instanceof DocumentFragment;
     const isElement = content instanceof HTMLElement;
-    
+
     // Appliquer le layout seulement si useLayout est true
-    
+
     if (route.useLayout) {
       const layoutFn = this.findLayout(path);
       if (layoutFn) {
-        
+
         // Le layout retourne un DocumentFragment
         const layoutFragment = layoutFn();
-        
+
         // Chercher l'élément <slot> dans le layout
         const contentSlot = layoutFragment.querySelector('slot');
-        
+
         if (contentSlot) {
           // Insérer le contenu de la page dans le slot
-          if (isElement ||isFragment) {
+          if (isElement || isFragment) {
             contentSlot.replaceWith(content);
           } else {
             // Créer un fragment temporaire pour le HTML string
@@ -181,7 +193,7 @@ class Router {
         } else {
           console.warn('Layout does not contain a <slot> element. Content will not be inserted.');
         }
-        
+
         // Insérer le layout complet dans this.root
         this.root.innerHTML = '';
         this.root.appendChild(layoutFragment);
@@ -203,11 +215,11 @@ class Router {
         this.root.innerHTML = content;
       }
     }
-    
+
     // Attacher les event listeners après le rendu
     this.attachEventListeners(path);
   }
-  
+
   // Attacher les event listeners après le rendu
   attachEventListeners(path) {
     // Event listener pour le bouton de login
@@ -217,7 +229,7 @@ class Router {
         this.login();
       });
     }
-    
+
     // Event listener pour le bouton de logout
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
@@ -226,7 +238,7 @@ class Router {
       });
     }
   }
-  
+
   // Se connecter et rediriger vers la page demandée
   login() {
     this.setAuth(true);
@@ -234,13 +246,13 @@ class Router {
     sessionStorage.removeItem('redirectAfterLogin');
     this.navigate(redirect || '/dashboard');
   }
-  
+
   // Se déconnecter
   logout() {
     this.setAuth(false);
     this.navigate(this.loginPath);
   }
-  
+
   // Démarrer le routeur
   start() {
     this.handleRoute();
