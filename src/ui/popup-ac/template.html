@@ -1,0 +1,151 @@
+<dialog id="popup-ac"
+    class="backdrop:bg-black/80 rounded-2xl shadow-2xl p-0 bg-[color-mix(in_srgb,var(--color-dark-bg),transparent_5%)] text-white border border-cyan-500/30 w-[95vw] max-w-lg open:animate-fade-in focus:outline-none backdrop-blur-xl">
+    <section class="flex flex-col h-full">
+        <header class="p-6 pb-2 border-b border-white/5">
+            <section class="flex items-start justify-between mb-4">
+                <section>
+                    <h2 id="ac-code" class="text-3xl font-black tracking-tight mb-2 text-[var(--color-cyan-500)]">
+                        AC00.00</h2>
+                    <h3 id="ac-label" class="text-lg font-medium text-gray-300 leading-snug">Libellé de l'AC</h3>
+                </section>
+                <section class="flex flex-col items-end gap-2">
+                    <span id="badge-year"
+                        class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-gray-800 text-gray-400 border border-gray-700 tracking-wider">
+                        BUT1
+                    </span>
+                    <span id="badge-ue"
+                        class="text-[0.625rem] text-right text-gray-500 font-medium uppercase tracking-widest max-w-[7.5rem]">
+                        Comprendre
+                    </span>
+                </section>
+            </section>
+        </header>
+
+        <article class="p-6 space-y-8">
+            <section class="space-y-3">
+                <header class="flex justify-between items-end">
+                    <span class="text-xs uppercase tracking-widest text-gray-500 font-bold">Niveau Actuel</span>
+                    <span id="status-text" class="text-sm font-bold text-white">Non acquis</span>
+                </header>
+                <span
+                    class="block h-4 bg-gray-800/50 rounded-full overflow-hidden border border-gray-700/50 p-[0.125rem]"
+                    role="progressbar">
+                    <span id="progress-bar"
+                        class="block h-full rounded-full w-0 transition-all duration-500 ease-out bg-[var(--color-status-inactive)]">
+                    </span>
+                </span>
+            </section>
+
+            <section class="grid grid-cols-1 gap-3">
+                <header class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">Modifier le statut
+                </header>
+                <label
+                    class="group relative flex items-center p-4 rounded-xl border border-gray-700/50 bg-gray-800/20 cursor-pointer hover:bg-gray-800/50 hover:border-gray-600 transition-all">
+                    <input type="radio" name="ac-status" value="0" class="peer sr-only">
+                    <span
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center mr-4 border border-gray-600 group-hover:border-gray-500 peer-checked:bg-[var(--color-red-500)] peer-checked:border-[var(--color-red-500)] peer-checked:text-white text-gray-500 transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </span>
+                    <span class="flex-1 block">
+                        <span
+                            class="block font-bold text-gray-300 group-hover:text-white peer-checked:text-white transition-colors">
+                            Non acquis</span>
+                        <span class="block text-xs text-gray-500">Je ne maîtrise pas encore cette compétence.</span>
+                    </span>
+                    <span
+                        class="absolute inset-0 border-2 border-transparent peer-checked:border-[var(--color-red-500)] peer-checked:border-opacity-50 rounded-xl transition-colors pointer-events-none">
+                    </span>
+                </label>
+                <label
+                    class="group relative flex items-center p-4 rounded-xl border border-gray-700/50 bg-gray-800/20 cursor-pointer hover:bg-gray-800/50 hover:border-gray-600 transition-all">
+                    <input type="radio" name="ac-status" value="1" class="peer sr-only">
+                    <span
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center mr-4 border border-gray-600 group-hover:border-gray-500 peer-checked:bg-[var(--color-orange-500)] peer-checked:border-[var(--color-orange-500)] peer-checked:text-white text-gray-500 transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </span>
+                    <span class="flex-1 block">
+                        <span
+                            class="block font-bold text-gray-300 group-hover:text-white peer-checked:text-white transition-colors">
+                            En cours d'acquisition</span>
+                        <span class="block text-xs text-gray-500">Je commence à comprendre mais j'ai besoin
+                            d'aide.</span>
+                    </span>
+                    <span
+                        class="absolute inset-0 border-2 border-transparent peer-checked:border-[var(--color-orange-500)] peer-checked:border-opacity-50 rounded-xl transition-colors pointer-events-none">
+                    </span>
+                </label>
+
+                <label
+                    class="group relative flex items-center p-4 rounded-xl border border-gray-700/50 bg-gray-800/20 cursor-pointer hover:bg-gray-800/50 hover:border-gray-600 transition-all">
+                    <input type="radio" name="ac-status" value="2" class="peer sr-only">
+                    <span
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center mr-4 border border-gray-600 group-hover:border-gray-500 peer-checked:bg-[var(--color-green-500)] peer-checked:border-[var(--color-green-500)] peer-checked:text-white text-gray-500 transition-all">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span class="flex-1 block">
+                        <span
+                            class="block font-bold text-gray-300 group-hover:text-white peer-checked:text-white transition-colors">
+                            Acquis</span>
+                        <span class="block text-xs text-gray-500">Je maîtrise cette compétence en autonomie.</span>
+                    </span>
+                    <span
+                        class="absolute inset-0 border-2 border-transparent peer-checked:border-[var(--color-green-500)] peer-checked:border-opacity-50 rounded-xl transition-colors pointer-events-none">
+                    </span>
+                </label>
+            </section>
+
+            <!-- Justificatif Section -->
+            <section class="space-y-3">
+                <header class="text-xs uppercase tracking-widest text-gray-500 font-bold">Justificatif</header>
+
+                <!-- Commentaire -->
+                <textarea id="ac-comment"
+                    class="w-full bg-[color-mix(in_srgb,var(--color-dark-bg),transparent_20%)] border border-gray-700 rounded-xl p-3 text-sm text-[var(--color-text-main)] placeholder-gray-600 focus:outline-none focus:border-[var(--color-cyan-500)] transition-colors resize-none h-24"
+                    placeholder="Ajouter un commentaire..."></textarea>
+
+                <!-- Fichier -->
+                <label class="flex items-center gap-3 cursor-pointer">
+                    <button id="btn-file" type="button"
+                        class="px-4 py-2 bg-[var(--color-card-bg)] border border-gray-700 rounded-lg text-sm text-gray-300 hover:text-white transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                        </svg>
+                        Importer un fichier
+                    </button>
+                    <span id="file-name" class="text-xs text-gray-500 italic truncate max-w-[12.5rem]">Aucun fichier
+                        selectionné</span>
+                    <input type="file" id="input-file" class="hidden">
+                    <button id="btn-file-delete" type="button"
+                        class="hidden text-[var(--color-red-500)] hover:text-red-400 p-1">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
+                        </svg>
+                    </button>
+                </label>
+            </section>
+        </article>
+        <footer class="p-6 pt-0 flex justify-end gap-3 mt-auto">
+            <button id="btn-cancel"
+                class="px-6 py-3 rounded-xl text-sm font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+                Annuler
+            </button>
+            <button id="btn-save"
+                class="px-8 py-3 rounded-xl text-sm font-bold text-white bg-[var(--color-blue-500)] hover:bg-blue-600 shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                Sauvegarder
+            </button>
+        </footer>
+    </section>
+</dialog>

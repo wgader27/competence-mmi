@@ -1,0 +1,41 @@
+<aside id="history-panel"
+    class="fixed top-1/2 right-8 -translate-y-1/2 translate-offscreen w-[24rem] bg-[color-mix(in_srgb,var(--color-dark-bg),transparent_5%)] backdrop-blur-2xl border-l border-cyan-500/30 rounded-l-2xl p-6 text-white shadow-2xl transition-transform duration-500 ease-out z-50 pointer-events-auto flex flex-col h-auto max-h-[85vh]">
+    <!-- Header -->
+    <header class="flex justify-between items-start mb-6 shrink-0">
+        <section>
+            <h2
+                class="inline-block px-4 py-1.5 mb-3 text-sm font-bold tracking-wide uppercase border rounded-lg text-[var(--color-cyan-500)] border-[var(--color-cyan-500)] bg-[color-mix(in_srgb,var(--color-cyan-500),transparent_90%)]">
+                Historique
+            </h2>
+            <h3 class="text-lg font-medium text-gray-100">Historique des modifications</h3>
+            <span id="history-count"
+                class="inline-block mt-2 px-3 py-1 text-xs font-medium bg-cyan-900/40 text-cyan-300 rounded-full border border-cyan-700/30">
+                Total: 0 modifications
+            </span>
+        </section>
+        <button id="btn-close-history" aria-label="Fermer l'historique"
+            class="text-gray-400 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- History List -->
+    <section class="overflow-y-auto grow custom-scrollbar pr-2">
+        <ul id="history-list" class="space-y-3 font-sans">
+            <!-- Items will be injected here via JS -->
+        </ul>
+
+        <p id="empty-history" class="hidden text-center py-10 text-gray-500 text-sm italic">
+            Aucune modification récente.
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="shrink-0 pt-4 mt-2 border-t border-gray-800 text-center">
+        <p class="text-[0.625rem] text-gray-600 italic">L'historique est sauvegardé localement sur cet appareil.</p>
+    </footer>
+</aside>
