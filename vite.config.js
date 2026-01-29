@@ -15,4 +15,5 @@ export default defineConfig({
     target: "esnext", //browsers can handle the latest ES features
   },
   base: "/SAE303/",
+
 });
